@@ -10,6 +10,7 @@ namespace api_ferreteriapieda.Models.DetalleFactura
             ResponseDetalleFactura result = new ResponseDetalleFactura();
             SqlConnection con = null;
 
+            //Implementacion de Azure
             try
             {
                 string conexion = "Server=tcp:ferreteriaserver.database.windows.net,1433;" +"Initial Catalog=FerreteriaPiedra;" +"Persist Security Info=False;" +"User ID=adminFerreteria;" +"Password=prograFerreteria09;" +"MultipleActiveResultSets=False;" +"Encrypt=True;" +"TrustServerCertificate=False;" +"Connection Timeout=300;";
