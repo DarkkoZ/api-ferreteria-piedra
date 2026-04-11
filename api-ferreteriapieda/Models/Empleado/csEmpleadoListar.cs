@@ -9,7 +9,7 @@ namespace api_ferreteriapieda.Models.Empleado
         public DataSet listarEmpleados()
         {
             DataSet dsi = new DataSet();
-            string conexion = "Server=.\\SQLEXPRESS;Database=FerreteriaPiedra;Trusted_Connection=True;TrustServerCertificate=True;";
+            string conexion = "Server=tcp:ferreteriaserver.database.windows.net,1433;" +"Initial Catalog=FerreteriaPiedra;" +"Persist Security Info=False;" +"User ID=adminFerreteria;" +"Password=prograFerreteria09;" +"MultipleActiveResultSets=False;" +"Encrypt=True;" +"TrustServerCertificate=False;" +"Connection Timeout=300;";
             SqlConnection con = new SqlConnection(conexion);
             con.Open();
 
