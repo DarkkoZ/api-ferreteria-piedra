@@ -1,0 +1,6 @@
+@api_ferreteriapieda_HostAddress = http://localhost:5145
+
+GET {{api_ferreteriapieda_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
