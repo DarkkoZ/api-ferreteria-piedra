@@ -6,6 +6,11 @@ namespace api_ferreteriapieda.Models.Empleado
 {
     public class csEmpleadoEliminar
     {
+        private readonly ConexionDB _conexionDB;
+        public csEmpleadoEliminar(ConexionDB conexionDB)
+        {
+            _conexionDB = conexionDB;
+        }
         public ResponseEmpleado eliminarEmpleado(int idEmpleado)
         {
             ResponseEmpleado result = new ResponseEmpleado();
@@ -13,8 +18,7 @@ namespace api_ferreteriapieda.Models.Empleado
 
             try
             {
-                string conexion = "Server=tcp:ferreteriaserver.database.windows.net,1433;" +"Initial Catalog=FerreteriaPiedra;" +"Persist Security Info=False;" +"User ID=adminFerreteria;" +"Password=prograFerreteria09;" +"MultipleActiveResultSets=False;" +"Encrypt=True;" +"TrustServerCertificate=False;" +"Connection Timeout=300;";
-                con = new SqlConnection(conexion);
+                con = _conexionDB.ObtenerConexion();
                 con.Open();
 
                 string cadena = "DELETE FROM Empleado WHERE IdEmpleado = " + idEmpleado;

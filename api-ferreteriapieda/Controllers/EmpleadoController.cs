@@ -47,7 +47,7 @@ namespace api_ferreteriapieda.Controllers
         [Route("rest/api/actualizarEmpleado")]
         public IActionResult ActualizarEmpleado([FromBody] csRequestEmpleadoActualizar model)
         {
-            csEmpleadoActualizar obj = new csEmpleadoActualizar();
+            csEmpleadoActualizar obj = new csEmpleadoActualizar(_conexionDB);
 
             ResponseEmpleado respuesta = obj.actualizarEmpleado(
                 model.IdEmpleado,
@@ -64,7 +64,7 @@ namespace api_ferreteriapieda.Controllers
         [Route("rest/api/eliminarEmpleado")]
         public IActionResult EliminarEmpleado([FromBody] csRequestEmpleadoEliminar model)
         {
-            csEmpleadoEliminar obj = new csEmpleadoEliminar();
+            csEmpleadoEliminar obj = new csEmpleadoEliminar(_conexionDB);
 
             ResponseEmpleado respuesta = obj.eliminarEmpleado(
                 model.IdEmpleado
