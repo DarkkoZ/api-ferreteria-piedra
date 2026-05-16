@@ -1,5 +1,6 @@
 ﻿using api_ferreteriapieda.Models.Cliente;
 using api_ferreteriapieda.Models.Factura;
+using api_ferreteriapieda.Config;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -10,11 +11,17 @@ namespace api_ferreteriapieda.Controllers
     
     public class FacturaController : ControllerBase
     {
+        private readonly ConexionDB _conexionDB;
+
+        public FacturaController(ConexionDB conexionDB)
+        {
+            _conexionDB = conexionDB;
+        }
         [HttpPost]
         [Route("rest/api/insertarFactura")]
         public IActionResult InsertarFactura([FromBody] csRequestFacturaInsertar model)
         {
-            csFacturaInsertar obj = new csFacturaInsertar();
+            csFacturaInsertar obj = new csFacturaInsertar(_conexionDB);
 
             ResponseFactura respuesta = obj.insertarFactura(
                 model.IdEmpleado,
@@ -61,7 +68,7 @@ namespace api_ferreteriapieda.Controllers
         [Route("rest/api/listarFacturas")]
         public IActionResult ListarFacturas()
         {
-            csFacturaListar obj = new csFacturaListar();
+            csFacturaListar obj = new csFacturaListar(_conexionDB);
             var ds = obj.listarFacturas();
 
             if (ds != null && ds.Tables.Count > 0)

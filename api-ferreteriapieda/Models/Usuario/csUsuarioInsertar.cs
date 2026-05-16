@@ -1,10 +1,17 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using api_ferreteriapieda.Config;
+using Microsoft.Data.SqlClient;
 using static api_ferreteriapieda.Models.Usuario.csUsuario;
 
 namespace api_ferreteriapieda.Models.Usuario
 {
     public class csUsuarioInsertar
     {
+        private readonly ConexionDB _conexionDB;
+
+        public csUsuarioInsertar(ConexionDB conexionDB)
+        {
+            _conexionDB = conexionDB;
+        }
         public ResponseUsuario insertarUsuario(string IdUsuario, string IdNit, int IdEmpleado, string Password, string Direccion, string Telefono, string Correo)
         {
             ResponseUsuario result = new ResponseUsuario();
@@ -12,8 +19,7 @@ namespace api_ferreteriapieda.Models.Usuario
 
             try
             {
-                string conexion = "Server=tcp:ferreteriaserver.database.windows.net,1433;" +"Initial Catalog=FerreteriaPiedra;" +"Persist Security Info=False;" +"User ID=adminFerreteria;" +"Password=prograFerreteria09;" +"MultipleActiveResultSets=False;" +"Encrypt=True;" +"TrustServerCertificate=False;" +"Connection Timeout=300;";
-                con = new SqlConnection(conexion);
+                con = _conexionDB.ObtenerConexion();
                 con.Open();
 
                 string cadena = "INSERT INTO Usuario(IdUsuario,IdNit,IdEmpleado,Password,Direccion,Telefono,Correo) VALUES " +

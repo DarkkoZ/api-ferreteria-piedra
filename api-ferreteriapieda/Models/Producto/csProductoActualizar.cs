@@ -1,19 +1,25 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using api_ferreteriapieda.Config;
+using Microsoft.Data.SqlClient;
 using static api_ferreteriapieda.Models.Producto.csProducto;
 
 namespace api_ferreteriapieda.Models.Producto
 {
     public class csProductoActualizar
     {
-        public ResponseProducto actualizarProducto(string IdProducto, string Nombre, string Descripcion, float Precio, int Inventario)
+        private readonly ConexionDB _conexionDB;
+
+        public csProductoActualizar(ConexionDB conexionDB)
+        {
+            _conexionDB = conexionDB;
+        }
+        public ResponseProducto actualizarProducto(string IdProducto, string Nombre, string Descripcion, float Precio, int Inventario, int Oferta)
         {
             ResponseProducto result = new ResponseProducto();
             SqlConnection con = null;
 
             try
             {
-                string conexion = "Server=tcp:ferreteriaserver.database.windows.net,1433;" +"Initial Catalog=FerreteriaPiedra;" +"Persist Security Info=False;" +"User ID=adminFerreteria;" +"Password=prograFerreteria09;" +"MultipleActiveResultSets=False;" +"Encrypt=True;" +"TrustServerCertificate=False;" +"Connection Timeout=300;";
-                con = new SqlConnection(conexion);
+                con = _conexionDB.ObtenerConexion();
                 con.Open();
 
                 string precioStr = Precio.ToString(System.Globalization.CultureInfo.InvariantCulture);
@@ -22,7 +28,8 @@ namespace api_ferreteriapieda.Models.Producto
                 "Nombre = '" + Nombre + "', " +
                 "Descripcion = '" + Descripcion + "', " +
                 "Precio = " + precioStr + ", " +
-                "Inventario = " + Inventario + " " +
+                "Inventario = " + Inventario + ", " +
+                "Oferta = " + Oferta + " " +
                 "WHERE IdProducto = '" + IdProducto + "' ";
 
                 SqlCommand cmd = new SqlCommand(cadena, con);

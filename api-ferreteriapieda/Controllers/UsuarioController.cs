@@ -1,5 +1,6 @@
 ﻿using api_ferreteriapieda.Models.Cliente;
 using api_ferreteriapieda.Models.Usuario;
+using api_ferreteriapieda.Config;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -10,11 +11,17 @@ namespace api_ferreteriapieda.Controllers
     
     public class UsuarioController : ControllerBase
     {
+        private readonly ConexionDB _conexionDB;
+
+        public UsuarioController(ConexionDB conexionDB)
+        {
+            _conexionDB = conexionDB;
+        }
         [HttpPost]
         [Route("rest/api/insertarUsuario")]
         public IActionResult InsertarUsuario([FromBody] csRequestUsuario model)
         {
-            csUsuarioInsertar obj = new csUsuarioInsertar();
+            csUsuarioInsertar obj = new csUsuarioInsertar(_conexionDB);
 
             ResponseUsuario respuesta = obj.insertarUsuario(
                 model.IdUsuario,
@@ -33,7 +40,7 @@ namespace api_ferreteriapieda.Controllers
         [Route("rest/api/actualizarUsuario")]
         public IActionResult ActualizarUsuario([FromBody] csRequestUsuarioActualizar model)
         {
-            csUsuarioActualizar obj = new csUsuarioActualizar();
+            csUsuarioActualizar obj = new csUsuarioActualizar(_conexionDB);
 
             ResponseUsuario respuesta = obj.actualizarUsuario(
                 model.IdUsuario,
@@ -52,7 +59,7 @@ namespace api_ferreteriapieda.Controllers
         [Route("rest/api/eliminarUsuario")]
         public IActionResult EliminarUsuario([FromBody] csRequestUsuarioEliminar model)
         {
-            csUsuarioEliminar obj = new csUsuarioEliminar();
+            csUsuarioEliminar obj = new csUsuarioEliminar(_conexionDB);
 
             ResponseUsuario respuesta = obj.eliminarUsuario(
                 model.IdUsuario
@@ -66,7 +73,7 @@ namespace api_ferreteriapieda.Controllers
         [Route("rest/api/listarUsuarios")]
         public IActionResult ListarClientes()
         {
-            csUsuarioListar obj = new csUsuarioListar();
+            csUsuarioListar obj = new csUsuarioListar(_conexionDB);
             var ds = obj.listarUsuarios();
 
             if (ds != null && ds.Tables.Count > 0)

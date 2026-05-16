@@ -1,15 +1,23 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
+using api_ferreteriapieda.Config;
 
 namespace api_ferreteriapieda.Models.DetalleFactura
 {
     public class csDetalleFacturaListar
     {
+        private readonly ConexionDB _conexionDB;
+
+        public csDetalleFacturaListar(ConexionDB conexionDB)
+        {
+            _conexionDB = conexionDB;
+        }
+
         public DataSet listarDetalleFacturas()
         {
             DataSet dsi = new DataSet();
-            string conexion = "Server=tcp:ferreteriaserver.database.windows.net,1433;" +"Initial Catalog=FerreteriaPiedra;" +"Persist Security Info=False;" +"User ID=adminFerreteria;" +"Password=prograFerreteria09;" +"MultipleActiveResultSets=False;" +"Encrypt=True;" +"TrustServerCertificate=False;" +"Connection Timeout=300;";
-            SqlConnection con = new SqlConnection(conexion);
+
+            SqlConnection con = _conexionDB.ObtenerConexion();
             con.Open();
 
             try

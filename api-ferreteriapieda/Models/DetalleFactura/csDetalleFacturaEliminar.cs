@@ -1,10 +1,17 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using api_ferreteriapieda.Config;
+using Microsoft.Data.SqlClient;
 using static api_ferreteriapieda.Models.DetalleFactura.csDetalleFactura;
 
 namespace api_ferreteriapieda.Models.DetalleFactura
 {
     public class csDetalleFacturaEliminar
     {
+        private readonly ConexionDB _conexionDB;
+
+        public csDetalleFacturaEliminar(ConexionDB conexionDB)
+        {
+            _conexionDB = conexionDB;
+        }
         public ResponseDetalleFactura eliminarDetalleFactura(int IdDetalleFacturacion)
         {
             ResponseDetalleFactura result = new ResponseDetalleFactura();
@@ -12,8 +19,7 @@ namespace api_ferreteriapieda.Models.DetalleFactura
 
             try
             {
-                string conexion = "Server=tcp:ferreteriaserver.database.windows.net,1433;" +"Initial Catalog=FerreteriaPiedra;" +"Persist Security Info=False;" +"User ID=adminFerreteria;" +"Password=prograFerreteria09;" +"MultipleActiveResultSets=False;" +"Encrypt=True;" +"TrustServerCertificate=False;" +"Connection Timeout=300;";
-                con = new SqlConnection(conexion);
+                con = _conexionDB.ObtenerConexion();
                 con.Open();
 
                 string cadena = "DELETE FROM DetalledeFacturacion WHERE IdDetalleFacturacion = " + IdDetalleFacturacion;

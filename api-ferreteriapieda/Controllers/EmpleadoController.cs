@@ -1,4 +1,5 @@
 ﻿using api_ferreteriapieda.Models.Empleado;
+using api_ferreteriapieda.Config;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +21,17 @@ namespace api_ferreteriapieda.Controllers
     
     public class EmpleadoController : ControllerBase
     {
+        private readonly ConexionDB _conexionDB;
+
+        public EmpleadoController(ConexionDB conexionDB)
+        {
+            _conexionDB = conexionDB;
+        }
         [HttpPost]
         [Route("rest/api/insertarEmpleado")]
         public IActionResult InsertarEmpleado([FromBody] csRequestEmpleado model)
         {
-            csEmpleadoInsertar obj = new csEmpleadoInsertar();
+            csEmpleadoInsertar obj = new csEmpleadoInsertar(_conexionDB);
 
             ResponseEmpleado respuesta = obj.insertarEmpleado(
                 model.Nombre,
@@ -71,7 +78,7 @@ namespace api_ferreteriapieda.Controllers
         [Route("rest/api/listarEmpleados")]
         public IActionResult ListarEmpleados()
         {
-            csEmpleadoListar obj = new csEmpleadoListar();
+            csEmpleadoListar obj = new csEmpleadoListar(_conexionDB);
             var ds = obj.listarEmpleados();
 
             if (ds != null && ds.Tables.Count > 0)

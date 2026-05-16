@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using api_ferreteriapieda.Config;
+using Microsoft.Data.SqlClient;
 using static api_ferreteriapieda.Models.Factura.csFactura;
 
 namespace api_ferreteriapieda.Models.Factura

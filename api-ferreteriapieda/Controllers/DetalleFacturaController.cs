@@ -1,5 +1,6 @@
 ﻿using api_ferreteriapieda.Models.DetalleFactura;
 using api_ferreteriapieda.Models.Factura;
+using api_ferreteriapieda.Config;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -10,12 +11,18 @@ namespace api_ferreteriapieda.Controllers
     
     public class DetalleFacturaController : ControllerBase
     {
+        private readonly ConexionDB _conexionDB;
+
+        public DetalleFacturaController(ConexionDB conexionDB)
+        {
+            _conexionDB = conexionDB;
+        }
 
         [HttpPost]
         [Route("rest/api/insertarDetalleFactura")]
         public IActionResult InsertarDetalleFactura([FromBody] csRequestDetalleFacturaInsertar model)
         {
-            csDetalleFacturaInsertar obj = new csDetalleFacturaInsertar();
+            csDetalleFacturaInsertar obj = new csDetalleFacturaInsertar(_conexionDB);
 
             ResponseDetalleFactura respuesta = obj.insertarDetalleFactura(
                 model.IdFactura,
@@ -31,7 +38,7 @@ namespace api_ferreteriapieda.Controllers
         [Route("rest/api/actualizarDetalleFactura")]
         public IActionResult ActualizarDetalleFactura([FromBody] csRequestDetalleFacturaActualizar model)
         {
-            csDetalleFacturaActualizar obj = new csDetalleFacturaActualizar();
+            csDetalleFacturaActualizar obj = new csDetalleFacturaActualizar(_conexionDB);
 
             ResponseDetalleFactura respuesta = obj.actualizarDetalleFactura(
                 model.IdDetalleFacturacion,
@@ -48,7 +55,7 @@ namespace api_ferreteriapieda.Controllers
         [Route("rest/api/eliminarDetalleFactura")]
         public IActionResult EliminarDetalleFactura([FromBody] csRequestDetalleFacturaEliminar model)
         {
-            csDetalleFacturaEliminar obj = new csDetalleFacturaEliminar();
+            csDetalleFacturaEliminar obj = new csDetalleFacturaEliminar(_conexionDB);
 
             ResponseDetalleFactura respuesta = obj.eliminarDetalleFactura(
                 model.IdDetalleFacturacion
@@ -62,7 +69,7 @@ namespace api_ferreteriapieda.Controllers
         [Route("rest/api/listarDetalleFacturas")]
         public IActionResult ListarDetalleFacturas()
         {
-            csDetalleFacturaListar obj = new csDetalleFacturaListar();
+            csDetalleFacturaListar obj = new csDetalleFacturaListar(_conexionDB);
             var ds = obj.listarDetalleFacturas();
 
             if (ds != null && ds.Tables.Count > 0)

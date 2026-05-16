@@ -1,10 +1,17 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using api_ferreteriapieda.Config;
+using Microsoft.Data.SqlClient;
 using static api_ferreteriapieda.Models.DetalleFactura.csDetalleFactura;
 
 namespace api_ferreteriapieda.Models.DetalleFactura
 {
     public class csDetalleFacturaActualizar
     {
+        private readonly ConexionDB _conexionDB;
+
+        public csDetalleFacturaActualizar(ConexionDB conexionDB)
+        {
+            _conexionDB = conexionDB;
+        }
         public ResponseDetalleFactura actualizarDetalleFactura(int IdDetalleFacturacion, int IdFactura, string IdProducto, int Cantidad, float Precio_Unitario)
         {
             ResponseDetalleFactura result = new ResponseDetalleFactura();
@@ -13,8 +20,7 @@ namespace api_ferreteriapieda.Models.DetalleFactura
             //Implementacion de Azure
             try
             {
-                string conexion = "Server=tcp:ferreteriaserver.database.windows.net,1433;" +"Initial Catalog=FerreteriaPiedra;" +"Persist Security Info=False;" +"User ID=adminFerreteria;" +"Password=prograFerreteria09;" +"MultipleActiveResultSets=False;" +"Encrypt=True;" +"TrustServerCertificate=False;" +"Connection Timeout=300;";
-                con = new SqlConnection(conexion);
+                con = _conexionDB.ObtenerConexion();
                 con.Open();
 
                 string PrecioUnitarioStr = Precio_Unitario.ToString(System.Globalization.CultureInfo.InvariantCulture);

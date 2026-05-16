@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using api_ferreteriapieda.Config;
 using Microsoft.Data.SqlClient;
 using static api_ferreteriapieda.Models.Empleado.csEmpleado;
 

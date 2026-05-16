@@ -14,5 +14,7 @@ namespace api_ferreteriapieda.Models.Producto
         public float Precio { get; set; }
         [Required]
         public int Inventario { get; set; }
+        [Required]
+        public int Oferta { get; set; }
     }
 }

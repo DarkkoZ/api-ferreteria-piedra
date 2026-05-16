@@ -1,10 +1,17 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using api_ferreteriapieda.Config;
+using Microsoft.Data.SqlClient;
 using static api_ferreteriapieda.Models.FormasDePago.csFormasDePago;
 
 namespace api_ferreteriapieda.Models.FormasDePago
 {
     public class csFormasDePagoEliminar
     {
+        private readonly ConexionDB _conexionDB;
+
+        public csFormasDePagoEliminar(ConexionDB conexionDB)
+        {
+            _conexionDB = conexionDB;
+        }
         public ResponseFormasDePago eliminarFormasDePago(int IdPago)
         {
             ResponseFormasDePago result = new ResponseFormasDePago();
@@ -12,8 +19,7 @@ namespace api_ferreteriapieda.Models.FormasDePago
 
             try
             {
-                string conexion = "Server=tcp:ferreteriaserver.database.windows.net,1433;" +"Initial Catalog=FerreteriaPiedra;" +"Persist Security Info=False;" +"User ID=adminFerreteria;" +"Password=prograFerreteria09;" +"MultipleActiveResultSets=False;" +"Encrypt=True;" +"TrustServerCertificate=False;" +"Connection Timeout=300;";
-                con = new SqlConnection(conexion);
+                con = _conexionDB.ObtenerConexion();
                 con.Open();
 
                 string cadena = "DELETE FROM FormasdePago WHERE IdPago = " + IdPago;

@@ -1,19 +1,25 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using api_ferreteriapieda.Config;
+using Microsoft.Data.SqlClient;
 using static api_ferreteriapieda.Models.Producto.csProducto;
 
 namespace api_ferreteriapieda.Models.Producto
 {
     public class csProductoInsertar
     {
-        public ResponseProducto insertarProducto(string IdProducto, string Nombre, string Descripcion, float Precio, int Inventario)
+        private readonly ConexionDB _conexionDB;
+
+        public csProductoInsertar(ConexionDB conexionDB)
+        {
+            _conexionDB = conexionDB;
+        }
+        public ResponseProducto insertarProducto(string IdProducto, string Nombre, string Descripcion, float Precio, int Inventario, int Oferta)
         {
             ResponseProducto result = new ResponseProducto();
             SqlConnection con = null;
 
             try
             {
-                string conexion = "Server=tcp:ferreteriaserver.database.windows.net,1433;" +"Initial Catalog=FerreteriaPiedra;" +"Persist Security Info=False;" +"User ID=adminFerreteria;" +"Password=prograFerreteria09;" +"MultipleActiveResultSets=False;" +"Encrypt=True;" +"TrustServerCertificate=False;" +"Connection Timeout=300;";
-                con = new SqlConnection(conexion);
+                con = _conexionDB.ObtenerConexion();
                 con.Open();
 
 
@@ -22,8 +28,8 @@ namespace api_ferreteriapieda.Models.Producto
                 Descripcion = Descripcion.Replace("'", "''");
                 IdProducto = IdProducto.Replace("'", "''");
 
-                string cadena = "INSERT INTO Producto(IdProducto,Nombre,Descripcion,Precio,Inventario) VALUES " +
-                    "('" + IdProducto + "', '" + Nombre + "', '" + Descripcion + "', " + precioStr + ", " + Inventario + ")";
+                string cadena = "INSERT INTO Producto(IdProducto,Nombre,Descripcion,Precio,Inventario,Oferta) VALUES " +
+                    "('" + IdProducto + "', '" + Nombre + "', '" + Descripcion + "', " + precioStr + ", " + Inventario + ", " + Oferta + ")";
 
                 SqlCommand cmd = new SqlCommand(cadena, con);
                 result.respuesta = cmd.ExecuteNonQuery();

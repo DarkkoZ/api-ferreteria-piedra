@@ -1,10 +1,18 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using api_ferreteriapieda.Config;
+using Microsoft.Data.SqlClient;
 using static api_ferreteriapieda.Models.FormasDePago.csFormasDePago;
 
 namespace api_ferreteriapieda.Models.FormasDePago
 {
     public class csFormasDePagoActualizar
     {
+        private readonly ConexionDB _conexionDB;
+
+        public csFormasDePagoActualizar(ConexionDB conexionDB)
+        {
+            _conexionDB = conexionDB;
+        }
+
         public ResponseFormasDePago actualizarFormasDePago(int IdPago, string Tipo_Tarjeta, string Visa_Cuotas, string Tarjeta_Debito_Credito)
         {
             ResponseFormasDePago result = new ResponseFormasDePago();
@@ -12,8 +20,7 @@ namespace api_ferreteriapieda.Models.FormasDePago
 
             try
             {
-                string conexion = "Server=tcp:ferreteriaserver.database.windows.net,1433;" +"Initial Catalog=FerreteriaPiedra;" +"Persist Security Info=False;" +"User ID=adminFerreteria;" +"Password=prograFerreteria09;" +"MultipleActiveResultSets=False;" +"Encrypt=True;" +"TrustServerCertificate=False;" +"Connection Timeout=300;";
-                con = new SqlConnection(conexion);
+                con = _conexionDB.ObtenerConexion();
                 con.Open();
 
                 string cadena = "UPDATE FormasdePago SET " +

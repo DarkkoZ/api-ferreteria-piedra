@@ -1,5 +1,6 @@
 ﻿using api_ferreteriapieda.Models.Cliente;
 using api_ferreteriapieda.Models.Empleado;
+using api_ferreteriapieda.Config;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -10,11 +11,17 @@ namespace api_ferreteriapieda.Controllers
     
     public class ClienteController : ControllerBase
     {
+        private readonly ConexionDB _conexionDB;
+
+        public ClienteController(ConexionDB conexionDB)
+        {
+            _conexionDB = conexionDB;
+        }
         [HttpPost]
         [Route("rest/api/insertarCliente")]
         public IActionResult InsertarCliente([FromBody] csRequestCliente model)
         {
-            csClienteInsertar obj = new csClienteInsertar();
+            csClienteInsertar obj = new csClienteInsertar(_conexionDB);
 
             ResponseCliente respuesta = obj.insertarCliente(
                 model.IdNit,
@@ -31,7 +38,7 @@ namespace api_ferreteriapieda.Controllers
         [Route("rest/api/actualizarCliente")]
         public IActionResult ActualizarCliente([FromBody] csRequestClienteActualizar model)
         {
-            csClienteActualizar obj = new csClienteActualizar();
+            csClienteActualizar obj = new csClienteActualizar(_conexionDB);
 
             ResponseCliente respuesta = obj.actualizarCliente(
                 model.IdNit,
@@ -48,7 +55,7 @@ namespace api_ferreteriapieda.Controllers
         [Route("rest/api/eliminarCliente")]
         public IActionResult EliminarCliente([FromBody] csRequestEliminarCliente model)
         {
-            csClienteEliminar obj = new csClienteEliminar();
+            csClienteEliminar obj = new csClienteEliminar(_conexionDB);
 
             ResponseCliente respuesta = obj.eliminarCliente(
                 model.IdNit
@@ -62,7 +69,7 @@ namespace api_ferreteriapieda.Controllers
         [Route("rest/api/listarClientes")]
         public IActionResult ListarClientes()
         {
-            csClienteListar obj = new csClienteListar();
+            csClienteListar obj = new csClienteListar(_conexionDB);
             var ds = obj.listarClientes();
 
             if (ds != null && ds.Tables.Count > 0)

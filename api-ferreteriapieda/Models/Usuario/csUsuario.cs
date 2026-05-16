@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using api_ferreteriapieda.Config;
+using Microsoft.Data.SqlClient;
 
 namespace api_ferreteriapieda.Models.Usuario
 {
@@ -24,6 +26,21 @@ namespace api_ferreteriapieda.Models.Usuario
         {
             public int respuesta { get; set; }
             public string descripcion_respuesta { get; set; }
+        }
+
+        public class ConexionWrapper
+        {
+            private readonly ConexionDB _conexionDB;
+
+            public ConexionWrapper(ConexionDB conexionDB)
+            {
+                _conexionDB = conexionDB;
+            }
+
+            public SqlConnection Obtener()
+            {
+                return _conexionDB.ObtenerConexion();
+            }
         }
     }
 }
